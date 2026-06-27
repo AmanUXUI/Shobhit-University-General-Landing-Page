@@ -102,11 +102,17 @@ export default function AdmissionRoutes({ onApply }: AdmissionRoutesProps) {
               Enrollment 2026
             </span>
           </div>
-          <h2 className="font-excon font-semibold text-2xl sm:text-3xl md:text-4xl text-izee-black tracking-tight leading-tight">
+          <h2 
+            style={{ lineHeight: "40px" }}
+            className="font-excon font-semibold text-2xl sm:text-3xl md:text-4xl text-izee-black tracking-tight"
+          >
             Admission Procedure And Pathways
           </h2>
           <div className="h-1 w-20 bg-izee-red mx-auto my-4 rounded-full" />
-          <p className="font-ranade font-light text-sm sm:text-base text-zinc-600 leading-relaxed max-w-3xl mx-auto">
+          <p 
+            style={{ fontSize: "14px", lineHeight: "26px" }}
+            className="font-ranade font-light text-zinc-600 max-w-3xl mx-auto"
+          >
             Admission to various undergraduate, postgraduate, professional, technical, and interdisciplinary programmes are offered through a structured multi-pathway framework
             designed to ensure accessibility, merit recognition, and academic suitability.
           </p>

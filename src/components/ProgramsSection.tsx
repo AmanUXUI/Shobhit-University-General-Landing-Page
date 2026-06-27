@@ -175,13 +175,19 @@ export default function ProgramsSection({ onApply }: ProgramsSectionProps) {
         </div>
 
         {/* Institution Title Area */}
-        <h2 className="font-excon font-normal text-3xl sm:text-4xl lg:text-5xl text-[#0B1E33] text-center tracking-tight leading-tight max-w-4xl">
+        <h2 
+          style={{ fontSize: "36px", lineHeight: "40px" }}
+          className="font-excon font-normal text-[#0B1E33] text-center tracking-tight max-w-4xl"
+        >
           Multiple Programmes. One University.
         </h2>
         <h3 className="font-excon font-normal text-sm sm:text-base lg:text-[15px] text-[#006644] text-center tracking-wide leading-relaxed mt-3.5 max-w-3xl">
           Engineering · Law · Management · Life Sciences · Agriculture · Education · PhD
         </h3>
-        <p className="font-ranade font-light text-zinc-600 text-[13px] sm:text-sm text-center mt-3.5 mb-10 max-w-2xl leading-relaxed">
+        <p 
+          style={{ lineHeight: "26px" }}
+          className="font-ranade font-light text-zinc-600 text-[13px] sm:text-sm text-center mt-3.5 mb-10 max-w-2xl"
+        >
           All programmes are aligned with the UGC National Curriculum Framework (NCF) 2024 and are designed in consultation with industry experts, ensuring that graduates are equipped with the knowledge, skills, and competencies required for professional success.
         </p>
 

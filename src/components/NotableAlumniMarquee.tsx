@@ -56,11 +56,17 @@ export default function NotableAlumniMarquee() {
               </span>
             </div>
 
-            <h2 className="font-excon font-normal text-2xl sm:text-[24px] text-white tracking-tight leading-[24px]">
+            <h2 
+              style={{ fontSize: "36px", lineHeight: "40px" }}
+              className="font-excon font-normal text-white tracking-tight"
+            >
               Notable Alumni
             </h2>
-
-            <p className="font-ranade font-light text-zinc-400 text-sm sm:text-[15px] mt-4 leading-relaxed">
+ 
+            <p 
+              style={{ fontSize: "14px", lineHeight: "26px" }}
+              className="font-ranade font-light text-zinc-400 mt-4"
+            >
               Discover the inspiring journeys of our distinguished alumni who are driving innovation, leading global organisations, creating entrepreneurial ventures, and making a meaningful impact across industries, academia, public service, and society.
             </p>
           </div>

@@ -106,11 +106,17 @@ export default function LifeAtShobhit() {
             </span>
           </div>
 
-          <h2 className="font-excon font-normal text-2xl sm:text-[28px] text-zinc-900 tracking-tight leading-tight">
+          <h2 
+            style={{ fontSize: "36px", lineHeight: "40px" }}
+            className="font-excon font-normal text-zinc-900 tracking-tight"
+          >
             Life @ Shobhit University
           </h2>
 
-          <p className="font-ranade font-light text-zinc-500 text-sm sm:text-[15px] mt-4 leading-relaxed">
+          <p 
+            style={{ fontSize: "14px", lineHeight: "26px" }}
+            className="font-ranade font-light text-zinc-500 mt-4"
+          >
             A campus where academics, creativity, sports, and student experiences come together to create an enriching and memorable university journey.
           </p>
         </div>

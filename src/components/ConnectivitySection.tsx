@@ -104,11 +104,17 @@ export default function ConnectivitySection() {
             </span>
           </div>
 
-          <h2 className="font-excon font-semibold text-3.5xl sm:text-4xl md:text-5xl text-[#0B1E33] tracking-tight leading-tight max-w-3xl">
+          <h2 
+            style={{ fontSize: "36px", lineHeight: "40px" }}
+            className="font-excon font-semibold text-[#0B1E33] tracking-tight max-w-3xl"
+          >
             Connectivity and Access
           </h2>
 
-          <p className="font-ranade font-light text-zinc-500 text-center text-sm sm:text-base mt-4 max-w-2xl leading-relaxed">
+          <p 
+            style={{ fontSize: "14px", lineHeight: "26px" }}
+            className="font-ranade font-light text-zinc-500 text-center mt-4 max-w-2xl"
+          >
             Strategically positioned within the Golden Triangle of North India, our campus combines high-speed mass transit, major expressway connections, and multiple regional transit gateways.
           </p>
         </div>

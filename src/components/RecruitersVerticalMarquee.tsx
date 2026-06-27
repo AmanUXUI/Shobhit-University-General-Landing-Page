@@ -73,11 +73,17 @@ export default function RecruitersVerticalMarquee() {
               </span>
             </div>
 
-            <h2 className="font-excon font-normal text-2xl sm:text-3xl text-[#0B1E33] tracking-tight leading-snug">
+            <h2 
+              style={{ fontSize: "24px", lineHeight: "30px" }}
+              className="font-excon font-normal text-[#0B1E33] tracking-tight"
+            >
               Our Prime Corporate Placement Partners
             </h2>
 
-            <p className="font-ranade font-light text-zinc-650 text-sm sm:text-[15px] mt-4 leading-relaxed max-w-xl">
+            <p 
+              style={{ fontSize: "14px", lineHeight: "26px" }}
+              className="font-ranade font-light text-zinc-650 mt-4 max-w-xl"
+            >
               We foster strong alliances with Fortune 500 tech players, global consultancy firms, and premium business groups. Our rigorous educational standards prepare delegates to step confidently onto global stages.
             </p>
           </div>
@@ -88,9 +94,9 @@ export default function RecruitersVerticalMarquee() {
                 <Award className="w-5 h-5 text-[#007a55]" />
               </div>
               <div>
-                <span className="block font-sans text-xl sm:text-2xl md:text-3xl font-extrabold text-zinc-950 transition-colors duration-300 group-hover:text-[#007a55]">97.4%</span>
+                <span className="block font-sans text-xl sm:text-2xl md:text-3xl font-extrabold text-zinc-950 transition-colors duration-300 group-hover:text-[#007a55]">100%</span>
                 <span className="block font-ranade font-medium text-[11px] sm:text-xs text-zinc-500 mt-1 uppercase tracking-wider">
-                  Placement Record
+                  Placement Assistance
                 </span>
               </div>
             </div>

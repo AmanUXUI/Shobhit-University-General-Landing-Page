@@ -10,23 +10,18 @@ import Navbar from "./components/Navbar";
 import BottomCards from "./components/BottomCards";
 import QuickInquiryForm from "./components/QuickInquiryForm";
 import TrustMarquee from "./components/TrustMarquee";
+import WhyChooseShobhit from "./components/WhyChooseShobhit";
 import ConnectivitySection from "./components/ConnectivitySection";
 import ProgramsSection from "./components/ProgramsSection";
 import AdmissionRoutes from "./components/AdmissionRoutes";
 import StickyBottomCTA from "./components/StickyBottomCTA";
 import RecruitersVerticalMarquee from "./components/RecruitersVerticalMarquee";
+import PlacementGallery from "./components/PlacementGallery";
 import NotableAlumniMarquee from "./components/NotableAlumniMarquee";
 import LifeAtShobhit from "./components/LifeAtShobhit";
 import Footer from "./components/Footer";
 
 export default function App() {
-  // Card-to-interactive-widget coordinator
-  const [activeWidget, setActiveWidget] = useState("spec-law");
-
-  const handleCardClick = (id: string) => {
-    setActiveWidget(id);
-  };
-
   const handleApplyNow = () => {
     const el = document.getElementById("admissions-inquiry");
     if (el) {
@@ -115,23 +110,41 @@ contact: mail@shobhituniversity.ac.in or NH-58, Modipuram, Meerut.
       </header>
 
       {/* Embedded 3-Card Overlay precisely continuing below the banner */}
-      <BottomCards activeWidget={activeWidget} onCardClick={handleCardClick} />
+      <BottomCards />
 
       {/* Modern Trust, Recognition & Approval Marquee */}
       <TrustMarquee />
 
-      {/* Connectivity & Access Section */}
-      <ConnectivitySection />
+      {/* Why Choose Shobhit University visual feature section */}
+      <WhyChooseShobhit />
 
       {/* Shobhit Institute Academic Programs Section */}
       <ProgramsSection onApply={handleApplyNow} />
+
+      {/* Vertical Recruiters Marquee Section */}
+      <RecruitersVerticalMarquee />
+
+      {/* Our Placements Showcase Section */}
+      <PlacementGallery />
+
+      {/* Notable Alumni picture marquee slider section */}
+      <NotableAlumniMarquee />
+
+      {/* Admission Procedure and Routes section */}
+      <AdmissionRoutes onApply={handleApplyNow} />
+
+      {/* Connectivity & Access Section */}
+      <ConnectivitySection />
+
+      {/* Life @ Shobhit University slider section */}
+      <LifeAtShobhit />
 
       {/* Single Image Banner Section with 6px radius */}
       <section className="py-6 bg-white" id="programs-university-banner">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="overflow-hidden rounded-[6px] shadow-sm hover:shadow-md transition-all duration-300">
             <img
-              src="https://imgh.in/host/swm1ye"
+              src="https://imgh.in/host/nkpko8"
               alt="Multiple Programmes. One University. Banner"
               className="w-full h-auto object-cover rounded-[6px] select-none block"
               referrerPolicy="no-referrer"
@@ -140,18 +153,6 @@ contact: mail@shobhituniversity.ac.in or NH-58, Modipuram, Meerut.
           </div>
         </div>
       </section>
-
-      {/* Admission Procedure and Routes section */}
-      <AdmissionRoutes onApply={handleApplyNow} />
-
-      {/* Vertical Recruiters Marquee Section */}
-      <RecruitersVerticalMarquee />
-
-      {/* Notable Alumni picture marquee slider section */}
-      <NotableAlumniMarquee />
-
-      {/* Life @ Shobhit University slider section */}
-      <LifeAtShobhit />
 
       {/* Royal Shobhit University Footer Section */}
       <Footer />
