@@ -20,6 +20,7 @@ import PlacementGallery from "./components/PlacementGallery";
 import NotableAlumniMarquee from "./components/NotableAlumniMarquee";
 import LifeAtShobhit from "./components/LifeAtShobhit";
 import Footer from "./components/Footer";
+import ScholarshipsSection from "./components/ScholarshipsSection";
 
 export default function App() {
   const handleApplyNow = () => {
@@ -147,6 +148,9 @@ contact: mail@shobhituniversity.ac.in or NH-58, Modipuram, Meerut.
 
       {/* Admission Procedure and Routes section */}
       <AdmissionRoutes onApply={handleApplyNow} />
+
+      {/* Scholarships Section */}
+      <ScholarshipsSection />
 
       {/* Connectivity & Access Section */}
       <ConnectivitySection />
