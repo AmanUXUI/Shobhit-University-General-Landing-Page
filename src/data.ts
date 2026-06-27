@@ -2,11 +2,11 @@ import { TickerItem, SpecificationItem, FAQItem, CurriculumSemester } from "./ty
 
 export const NAVIGATION_LINKS = [
   { label: "ACCREDITATIONS", href: "#interactive-hero-cards" },
-  { label: "CONNECTIVITY", href: "#connectivity-and-access" },
   { label: "PROGRAMMES", href: "#programs-directory" },
-  { label: "ADMISSIONS", href: "#admission-procedure-and-routes" },
   { label: "PLACEMENTS", href: "#placements" },
   { label: "NOTABLE ALUMNI", href: "#notable-alumni" },
+  { label: "ADMISSIONS", href: "#admission-procedure-and-routes" },
+  { label: "CONNECTIVITY", href: "#connectivity-and-access" },
 ];
 
 export const TICKER_ITEMS: TickerItem[] = [
