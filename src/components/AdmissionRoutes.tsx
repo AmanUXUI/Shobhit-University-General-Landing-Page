@@ -104,7 +104,7 @@ export default function AdmissionRoutes({ onApply }: AdmissionRoutesProps) {
           </div>
           <h2 
             style={{ lineHeight: "40px" }}
-            className="font-excon font-semibold text-2xl sm:text-3xl md:text-4xl text-izee-black tracking-tight"
+            className="font-excon font-normal text-2xl sm:text-3xl md:text-4xl text-izee-black tracking-tight"
           >
             Admission Procedure And Pathways
           </h2>

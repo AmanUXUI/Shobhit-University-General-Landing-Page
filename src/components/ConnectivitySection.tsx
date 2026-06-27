@@ -106,7 +106,7 @@ export default function ConnectivitySection() {
 
           <h2 
             style={{ fontSize: "36px", lineHeight: "40px" }}
-            className="font-excon font-semibold text-[#0B1E33] tracking-tight max-w-3xl"
+            className="font-excon font-normal text-[#0B1E33] tracking-tight max-w-3xl"
           >
             Connectivity and Access
           </h2>

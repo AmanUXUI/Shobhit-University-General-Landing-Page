@@ -70,7 +70,7 @@ export default function BottomCards() {
         <div className="mb-6 max-w-2xl">
           <h2 
             style={{ fontSize: "24px", lineHeight: "30px" }}
-            className="font-excon font-bold text-zinc-950 tracking-tight"
+            className="font-excon font-normal text-zinc-950 tracking-tight"
           >
             Our Rankings
           </h2>

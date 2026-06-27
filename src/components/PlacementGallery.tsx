@@ -82,7 +82,7 @@ export default function PlacementGallery() {
                 Success Stories
               </span>
             </div>
-            <h2 className="font-excon font-bold text-2xl sm:text-3xl md:text-4xl text-zinc-950 tracking-tight">
+            <h2 className="font-excon font-normal text-2xl sm:text-3xl md:text-4xl text-zinc-950 tracking-tight">
               Our Placements
             </h2>
             <p 

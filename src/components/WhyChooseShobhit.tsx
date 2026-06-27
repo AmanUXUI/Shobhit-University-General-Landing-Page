@@ -116,7 +116,7 @@ export default function WhyChooseShobhit() {
               The Shobhit Advantage
             </span>
           </div>
-          <h2 className="font-excon font-bold text-3xl sm:text-4xl text-zinc-950 tracking-tight">
+          <h2 className="font-excon font-normal text-3xl sm:text-4xl text-zinc-950 tracking-tight">
             Why Choose Shobhit University?
           </h2>
           <p className="font-ranade font-light text-zinc-550 text-sm sm:text-base mt-3 leading-relaxed">

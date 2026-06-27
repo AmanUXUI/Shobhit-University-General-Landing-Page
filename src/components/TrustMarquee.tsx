@@ -91,7 +91,7 @@ export default function TrustMarquee() {
           <span className="inline-block text-[10px] font-excon font-bold text-izee-red tracking-wider mb-1.5 px-2.5 py-1 bg-izee-red/10 rounded">
             Elite Verification & Accreditations
           </span>
-          <h2 className="font-excon font-semibold text-lg sm:text-xl md:text-2xl text-izee-black tracking-tight leading-tight">
+          <h2 className="font-excon font-normal text-lg sm:text-xl md:text-2xl text-izee-black tracking-tight leading-tight">
             Recognitions, Approvals & Memberships
           </h2>
         </div>

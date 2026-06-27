@@ -127,18 +127,6 @@ contact: mail@shobhituniversity.ac.in or NH-58, Modipuram, Meerut.
       {/* Our Placements Showcase Section */}
       <PlacementGallery />
 
-      {/* Notable Alumni picture marquee slider section */}
-      <NotableAlumniMarquee />
-
-      {/* Admission Procedure and Routes section */}
-      <AdmissionRoutes onApply={handleApplyNow} />
-
-      {/* Connectivity & Access Section */}
-      <ConnectivitySection />
-
-      {/* Life @ Shobhit University slider section */}
-      <LifeAtShobhit />
-
       {/* Single Image Banner Section with 6px radius */}
       <section className="py-6 bg-white" id="programs-university-banner">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -153,6 +141,18 @@ contact: mail@shobhituniversity.ac.in or NH-58, Modipuram, Meerut.
           </div>
         </div>
       </section>
+
+      {/* Notable Alumni picture marquee slider section */}
+      <NotableAlumniMarquee />
+
+      {/* Admission Procedure and Routes section */}
+      <AdmissionRoutes onApply={handleApplyNow} />
+
+      {/* Connectivity & Access Section */}
+      <ConnectivitySection />
+
+      {/* Life @ Shobhit University slider section */}
+      <LifeAtShobhit />
 
       {/* Royal Shobhit University Footer Section */}
       <Footer />
