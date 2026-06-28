@@ -1,5 +1,5 @@
-import React from "react";
-import { Sparkles, MapPin } from "lucide-react";
+import React, { useRef, useEffect, useState } from "react";
+import { Sparkles } from "lucide-react";
 
 interface LifeImageItem {
   url: string;
@@ -71,24 +71,150 @@ const LIFE_IMAGES: LifeImageItem[] = [
 ];
 
 export default function LifeAtShobhit() {
-  // Triple the array to guarantee seamless looping across any extra-wide screen sizes
-  const combinedImages = [...LIFE_IMAGES, ...LIFE_IMAGES, ...LIFE_IMAGES];
+  // Duplicate images 4 times for seamless infinity looping
+  const combinedImages = [
+    ...LIFE_IMAGES,
+    ...LIFE_IMAGES,
+    ...LIFE_IMAGES,
+    ...LIFE_IMAGES
+  ];
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isDownRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const autoScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Set initial scroll position to the second set to allow seamless dragging in both directions
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    
+    const timer = setTimeout(() => {
+      const oneSetWidth = container.scrollWidth / 4;
+      container.scrollLeft = oneSetWidth;
+    }, 120);
+
+    return () => {
+      clearTimeout(timer);
+      if (autoScrollTimeoutRef.current) clearTimeout(autoScrollTimeoutRef.current);
+    };
+  }, []);
+
+  // Frame-by-frame auto scroll
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    let lastTime = performance.now();
+    const speed = 40; // Pixels per second to match Notable Alumni marquee speed
+    let animationId: number;
+
+    const animate = (time: number) => {
+      if (isInteracting) {
+        lastTime = time;
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
+
+      const delta = (time - lastTime) / 1000;
+      lastTime = time;
+
+      container.scrollLeft += speed * delta;
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animationId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, [isInteracting]);
+
+  // Handle loop wrapper on scroll events (covers drag, native swipe, and auto scroll)
+  const handleScroll = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const oneSetWidth = container.scrollWidth / 4;
+    if (oneSetWidth <= 0) return;
+
+    // If we scroll too far right, wrap back left
+    if (container.scrollLeft >= oneSetWidth * 2.5) {
+      container.scrollLeft -= oneSetWidth;
+    }
+    // If we scroll too far left, wrap back right
+    else if (container.scrollLeft <= oneSetWidth * 0.5) {
+      container.scrollLeft += oneSetWidth;
+    }
+  };
+
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    isDownRef.current = true;
+    setIsInteracting(true);
+    
+    if (autoScrollTimeoutRef.current) {
+      clearTimeout(autoScrollTimeoutRef.current);
+    }
+
+    startXRef.current = e.pageX - container.offsetLeft;
+    scrollLeftRef.current = container.scrollLeft;
+  };
+
+  const stopDragging = () => {
+    if (!isDownRef.current) return;
+    isDownRef.current = false;
+
+    // Wait a brief moment before resuming auto scroll
+    if (autoScrollTimeoutRef.current) clearTimeout(autoScrollTimeoutRef.current);
+    autoScrollTimeoutRef.current = setTimeout(() => {
+      setIsInteracting(false);
+    }, 1500);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDownRef.current) return;
+    e.preventDefault();
+
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - startXRef.current) * 1.5; // Drag speed multiplier
+    container.scrollLeft = scrollLeftRef.current - walk;
+  };
+
+  // Touch handlers for mobile fingers
+  const handleTouchStart = () => {
+    setIsInteracting(true);
+    if (autoScrollTimeoutRef.current) {
+      clearTimeout(autoScrollTimeoutRef.current);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (autoScrollTimeoutRef.current) clearTimeout(autoScrollTimeoutRef.current);
+    autoScrollTimeoutRef.current = setTimeout(() => {
+      setIsInteracting(false);
+    }, 2000);
+  };
 
   return (
     <section id="life-at-shobhit" className="py-24 bg-white text-zinc-950 relative overflow-hidden border-t border-zinc-100">
-      {/* Self-contained CSS for seamless horizontal marquee */}
+      {/* Scrollbar-none style block */}
       <style>{`
-        @keyframes scroll-life-rtl {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-33.33333%); }
+        .scrollbar-none::-webkit-scrollbar {
+          display: none;
         }
-
-        .animate-scroll-life {
-          animation: scroll-life-rtl 45s linear infinite;
-        }
-
-        .pause-life-marquee:hover .animate-scroll-life {
-          animation-play-state: paused;
+        .scrollbar-none {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          scroll-behavior: auto !important;
         }
       `}</style>
 
@@ -122,29 +248,41 @@ export default function LifeAtShobhit() {
         </div>
       </div>
 
-      {/* Full-width carousel scroll track */}
-      <div className="relative w-full overflow-hidden select-none py-2 pause-life-marquee">
+      {/* Full-width carousel scroll track with manual touch drag and swipe support */}
+      <div className="relative w-full overflow-hidden select-none py-2">
         {/* Soft edge blur overlays to blend in and out seamlessly */}
         <div className="absolute top-0 left-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
         <div className="absolute top-0 right-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
 
-        {/* Scrolling rail */}
-        <div className="flex w-[300%] items-center gap-6 animate-scroll-life">
-          {combinedImages.map((item, index) => (
-            <div
-              key={`life-img-${index}`}
-              className="group shrink-0 relative aspect-square w-64 sm:w-72 md:w-80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-zinc-150 transition-all duration-500"
-            >
-              {/* Image itself */}
-              <img
-                src={item.url}
-                alt={item.title}
-                className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
-                referrerPolicy="no-referrer"
-                loading="lazy"
-              />
-            </div>
-          ))}
+        {/* Scrolling rail with drag & touch actions */}
+        <div 
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          onMouseDown={handleMouseDown}
+          onMouseLeave={stopDragging}
+          onMouseUp={stopDragging}
+          onMouseMove={handleMouseMove}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          className="w-full overflow-x-auto scrollbar-none relative cursor-grab active:cursor-grabbing touch-pan-x"
+        >
+          <div className="flex items-center gap-6 py-2.5 w-max px-12">
+            {combinedImages.map((item, index) => (
+              <div
+                key={`life-img-${index}`}
+                className="group shrink-0 relative aspect-square w-64 sm:w-72 md:w-80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-zinc-150 transition-all duration-500"
+              >
+                {/* Image itself */}
+                <img
+                  src={item.url}
+                  alt={item.title}
+                  className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+                  referrerPolicy="no-referrer"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Sparkles, ArrowRight } from "lucide-react";
 
 const PLACEMENT_IMAGES = [
@@ -23,49 +23,150 @@ const PLACEMENT_IMAGES = [
   "https://www.shobhituniversity.ac.in/assets/img/placements/p11.webp"
 ];
 
-// Duplicate list to achieve a completely seamless, infinite carousel effect
-const DOUBLE_PLACEMENT_IMAGES = [...PLACEMENT_IMAGES, ...PLACEMENT_IMAGES];
-
 export default function PlacementGallery() {
-  const [visibleCount, setVisibleCount] = useState(4);
+  // Duplicate images 4 times for seamless infinity looping
+  const combinedImages = [
+    ...PLACEMENT_IMAGES,
+    ...PLACEMENT_IMAGES,
+    ...PLACEMENT_IMAGES,
+    ...PLACEMENT_IMAGES
+  ];
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isDownRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const autoScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Set initial scroll position to the second set to allow seamless dragging in both directions
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1280) {
-        setVisibleCount(4);
-      } else if (window.innerWidth >= 1024) {
-        setVisibleCount(3);
-      } else if (window.innerWidth >= 640) {
-        setVisibleCount(2);
-      } else {
-        setVisibleCount(1.2); // partial peek on small screen
-      }
-    };
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    
+    const timer = setTimeout(() => {
+      const oneSetWidth = container.scrollWidth / 4;
+      container.scrollLeft = oneSetWidth;
+    }, 120);
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timer);
+      if (autoScrollTimeoutRef.current) clearTimeout(autoScrollTimeoutRef.current);
+    };
   }, []);
 
-  const containerWidthPercent = (DOUBLE_PLACEMENT_IMAGES.length / visibleCount) * 100;
+  // Frame-by-frame auto scroll at 40 pixels/sec to match Notable Alumni marquee speed
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    let lastTime = performance.now();
+    const speed = 40; // Pixels per second
+    let animationId: number;
+
+    const animate = (time: number) => {
+      if (isInteracting) {
+        lastTime = time;
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
+
+      const delta = (time - lastTime) / 1000;
+      lastTime = time;
+
+      container.scrollLeft += speed * delta;
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animationId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, [isInteracting]);
+
+  // Handle loop wrapper on scroll events (covers drag, native swipe, and auto scroll)
+  const handleScroll = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const oneSetWidth = container.scrollWidth / 4;
+    if (oneSetWidth <= 0) return;
+
+    // If we scroll too far right, wrap back left
+    if (container.scrollLeft >= oneSetWidth * 2.5) {
+      container.scrollLeft -= oneSetWidth;
+    }
+    // If we scroll too far left, wrap back right
+    else if (container.scrollLeft <= oneSetWidth * 0.5) {
+      container.scrollLeft += oneSetWidth;
+    }
+  };
+
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    isDownRef.current = true;
+    setIsInteracting(true);
+    
+    if (autoScrollTimeoutRef.current) {
+      clearTimeout(autoScrollTimeoutRef.current);
+    }
+
+    startXRef.current = e.pageX - container.offsetLeft;
+    scrollLeftRef.current = container.scrollLeft;
+  };
+
+  const stopDragging = () => {
+    if (!isDownRef.current) return;
+    isDownRef.current = false;
+
+    // Wait a brief moment before resuming auto scroll
+    if (autoScrollTimeoutRef.current) clearTimeout(autoScrollTimeoutRef.current);
+    autoScrollTimeoutRef.current = setTimeout(() => {
+      setIsInteracting(false);
+    }, 1500);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDownRef.current) return;
+    e.preventDefault();
+
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - startXRef.current) * 1.5; // Drag speed multiplier
+    container.scrollLeft = scrollLeftRef.current - walk;
+  };
+
+  // Touch handlers for mobile fingers
+  const handleTouchStart = () => {
+    setIsInteracting(true);
+    if (autoScrollTimeoutRef.current) {
+      clearTimeout(autoScrollTimeoutRef.current);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (autoScrollTimeoutRef.current) clearTimeout(autoScrollTimeoutRef.current);
+    autoScrollTimeoutRef.current = setTimeout(() => {
+      setIsInteracting(false);
+    }, 2000);
+  };
 
   return (
     <section id="our-placements-gallery" className="py-16 bg-zinc-50 border-t border-zinc-250/50 relative overflow-hidden">
       <style>{`
-        @keyframes placementMarquee {
-          0% {
-            transform: translateX(0%);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
+        .scrollbar-none::-webkit-scrollbar {
+          display: none;
         }
-        .placement-marquee-track {
-          display: flex;
-          animation: placementMarquee 80s linear infinite;
-        }
-        .placement-marquee-track:hover {
-          animation-play-state: paused;
+        .scrollbar-none {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          scroll-behavior: auto !important;
         }
       `}</style>
 
@@ -93,30 +194,37 @@ export default function PlacementGallery() {
             </p>
           </div>
           <div className="hidden md:flex items-center gap-2 text-[#007a55] font-ranade text-xs font-semibold uppercase tracking-wider group cursor-default">
-            <span>Hover to pause & inspect</span>
+            <span>Drag or swipe to explore</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </div>
         </div>
       </div>
 
-      {/* Seamless horizontal sliding carousel container */}
+      {/* Seamless horizontal sliding carousel container with manual touch drag and swipe support */}
       <div className="relative w-full overflow-hidden py-4 select-none">
         
         {/* Soft left/right gradients to blend edges beautifully */}
         <div className="absolute top-0 left-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-zinc-50 via-zinc-50/60 to-transparent z-10 pointer-events-none" />
         <div className="absolute top-0 right-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-zinc-50 via-zinc-50/60 to-transparent z-10 pointer-events-none" />
 
+        {/* Scrolling rail with drag & touch actions */}
         <div 
-          className="placement-marquee-track"
-          style={{ width: `${containerWidthPercent}%` }}
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          onMouseDown={handleMouseDown}
+          onMouseLeave={stopDragging}
+          onMouseUp={stopDragging}
+          onMouseMove={handleMouseMove}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          className="w-full overflow-x-auto scrollbar-none relative cursor-grab active:cursor-grabbing touch-pan-x"
         >
-          {DOUBLE_PLACEMENT_IMAGES.map((imgUrl, idx) => (
-            <div
-              key={`placement-creative-${idx}`}
-              style={{ width: `${100 / DOUBLE_PLACEMENT_IMAGES.length}%` }}
-              className="px-3 shrink-0"
-            >
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-[0_12px_30px_-8px_rgba(0,122,85,0.06),0_1px_3px_rgba(0,0,0,0.02)] border border-zinc-200/60 group">
+          <div className="flex items-center gap-6 py-2.5 w-max px-12">
+            {combinedImages.map((imgUrl, idx) => (
+              <div
+                key={`placement-creative-${idx}`}
+                className="group shrink-0 relative aspect-square w-64 sm:w-72 md:w-80 rounded-2xl overflow-hidden bg-white shadow-[0_12px_30px_-8px_rgba(0,122,85,0.06),0_1px_3px_rgba(0,0,0,0.02)] border border-zinc-200/60 transition-all duration-500"
+              >
                 <img
                   src={imgUrl}
                   alt={`Shobhit University Placement Banner ${(idx % PLACEMENT_IMAGES.length) + 1}`}
@@ -128,8 +236,8 @@ export default function PlacementGallery() {
                 {/* Premium hover overlay glow */}
                 <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
