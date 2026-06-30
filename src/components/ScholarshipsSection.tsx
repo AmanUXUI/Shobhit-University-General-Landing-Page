@@ -325,7 +325,7 @@ export default function ScholarshipsSection() {
                 </div>
                 <a
                   href="#admissions-inquiry"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-zinc-950 hover:bg-zinc-850 text-white font-excon text-xs uppercase tracking-wider font-semibold rounded-lg shadow-sm hover:shadow transition-all duration-200 cursor-pointer w-full sm:w-auto justify-center"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-izee-red hover:bg-izee-red-hover text-white font-excon text-xs uppercase tracking-wider font-semibold rounded-lg shadow-md shadow-izee-red/10 hover:shadow-lg hover:shadow-izee-red/25 transition-all duration-200 cursor-pointer w-full sm:w-auto justify-center"
                 >
                   Check Eligibility
                   <ArrowRight className="w-3.5 h-3.5" />
