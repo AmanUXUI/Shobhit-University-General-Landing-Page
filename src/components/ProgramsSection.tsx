@@ -182,7 +182,7 @@ export default function ProgramsSection({ onApply }: ProgramsSectionProps) {
           Multiple Programmes. One University.
         </h2>
         <h3 className="font-excon font-normal text-sm sm:text-base lg:text-[15px] text-[#006644] text-center tracking-wide leading-relaxed mt-3.5 max-w-3xl">
-          Engineering · Law · Management · Life Sciences · Agriculture · Education · PhD
+          Engineering · Law · Management · Life Sciences · Agriculture · Education
         </h3>
         <p 
           style={{ lineHeight: "26px" }}
